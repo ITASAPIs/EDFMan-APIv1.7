@@ -14,7 +14,9 @@ VERSION: 1.1
 ## New Endpoints
 
 <ul>
-<li>Invoicing <b>Discharge Weights Create</b>: Create Dishcarge Weights,<a href="/#reference/invoicing/discharge-weights-create"> Link</a></li>
+<li>Inventory <b>Lots Create</b>: Create Lots,<a href="/#reference/inventory/lots-create/create-lots"> Link</a></li>
+<li>Inventory <b>Lots Update</b>: Update Lots,<a href="/#reference/inventory/lots-update/update-lots"> Link</a></li>
+<li>Inventory <b>Lots Delete</b>: Delete Lots,<a href="/#reference/inventory/lots-delete/delete-lots"> Link</a></li>
 </ul>
 
 ## Updated Endpoints
@@ -733,7 +735,7 @@ None.
 |--------|-----------|----|----------|-----|----------|
 |VesselGroup|Vessel Group|`string`|6|||
 |NewVesselGroup|New Vessel Group|`boolean`||||
-|Lots|see <b><a href="/#reference/data-object-definitions">Lot</a></b> object|[array] of `object`|||Required|
+|Lots|see <b><a href="/#reference/data-object-definitions/lot">Lot</a></b> object|[array] of `object`|||Required|
 
 <hr />
 
@@ -777,7 +779,7 @@ None.
 
 |Property|Description|Type|Max Length|Notes|Constraint|
 |--------|-----------|----|----------|-----|----------|
-|Lots|see <b><a href="/#reference/data-object-definitions">Lot</a></b> object|[array] of `object`|||Required|
+|Lots|see <b><a href="/#reference/data-object-definitions/lot">Lot</a></b> object|[array] of `object`|||Required|
 
 + Request (application/json)
     + Header
@@ -1033,7 +1035,7 @@ A multipurpose object used by several endpoints.
 |ColourGrade|Colour Grade|`string`|2|||
 |Comments|Comments|`string`|4000|||
 |InstColourGradeGreyness|Inst Colour Grade Greyness|`decimal`||||
-|Shipping|Shipping|`ShippingInfo`||Nested Shipping object||
+|Shipping|see <b><a href="/#reference/data-object-definitions/shipping">Shipping</a></b> object|[array] of `object`||||
 
 + Response 200 (application/json; charset=utf-8)
 + Attributes (Lot)
