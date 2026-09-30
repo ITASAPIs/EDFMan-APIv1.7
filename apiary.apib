@@ -1,0 +1,1305 @@
+FORMAT: 1A
+HOST: http://itas.apiary.io/
+VERSION: 1.1
+
+# ED&FMan Custom API v1.6
+
+## Disclaimer
+
+**** Warning: at this point, ITAS API does not support asynchronous or multithreading calls for POST, PUT, PATCH and DELETE requests. Async or multithreading requests could result in various Error messages, or even a corruption of data in extreme cases and are therefore not supported. ****
+<br />
+<br />
+<strong>Release notes</strong> (<sup>4th</sup> September 2026.)
+
+## New Endpoints
+
+<ul>
+<li>Invoicing <b>Discharge Weights Create</b>: Create Dishcarge Weights,<a href="/#reference/invoicing/discharge-weights-create"> Link</a></li>
+</ul>
+
+## Updated Endpoints
+
+<ul>
+<li>None</li>
+</ul>
+<div>** ends ** </div>
+
+
+## AccessToken [/AT]
+Model Header containing AccessToken
+
++ Model 
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+
+# Group Contract-Physical
+
+## Net and Gross Weights Update [/Contracts/{TradingEntityId}/Traffic/NetAndGrossWeights/{PhysicalTradeId}]
+
+### Update Net and Gross Weights [PATCH]
+`PATCH` Adjust Net and Gross Weights. * <a href="/#introduction/disclaimer"> (Disclaimer)</a>
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|PhysicalTradeId|Physical Trade Id|`string`|10||Required|
+|GrossWeight|Gross Weight|`decimal`|||Required|
+|NetWeight|Net Weight|`decimal`|||Required|
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (NetGrossWeight Update)
+
++ Parameters
+    + TradingEntityId (required, string, `JT`) ... Identify specific trading entity.
+    + PhysicalTradeId (required, string, `P00001.000`) ... Code for Physical Trade to update.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data (array [NetGrossWeight ResponseP, NetGrossWeight ResponseS])
+        + Response (200 UpdateResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+
+# Group Electronic Order Book
+
+## Broker Data Create [/ElectronicOrderBook/BrokerData]
+
+### Create Broker Data [POST]
+`POST`
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|OrderId|Order Id|`number`|||Required|
+|SerialNo|Serail Number|`number`||||
+|TradeDate|Trade Date|`datetime`||||
+|AccountCode|Account Code|`string`|10|||
+|TradeCodeId|Trade Code ID|`string`|3|||
+|DepartmentCode|Department Code|`string`|4|||
+|InstrumentCode|Instrument Code|`string`|8|||
+|PromptDate|Prompt Date|`date`||`yyyy-mm` or `yyyy-mm-dd`||
+|Instruction|Instruction|`boolean`||||
+|OptionType|Option Type|`string`|1|`Call`, `Put` or `Futures`||
+|OptionSeries|Option Series|`decimal`||||
+|BuySell|Buy or Sell|`string`|4|`Buy` or `Sell`||
+|Lots|Lots|`number`||. Greater than `0`||
+|PhysiscalTradeCode|Physical Reference|`string`|11|||
+|BrokerCode|Broker Account|`string`|10|||
+|Price|Price|`decimal`||||
+|FloorBrokerCode|Floor Broker Account Code|`string`|10|||
+|TraderCode|Trader Code|`string`|3|||
+|Memo|Memorandum|`string`|120|||
+|StrategyCode|Strategy Code|`string`|15|||
+|StrategyGroupCode|Strategy Group Code|`string`|15|||
+|Memo2|Memorandum 2|`string`|20|||
+|ExternalSerial|External Serial|`string`|10|||
+|CommissionCodeRateCode|Commission Code Rate Code|`string`|3|||
+|BrokerPrice|Broker Price|`decimal`||||
+|BuybackReference|Buyback Reference|`number`||||
+|ClientOrBroker|Client or Broker|`string`||`Client` or `Broker`||
+|CommissionCurrencyCode|Commission Currency Code|`string`|3|||
+|CommissionType|Commission Type|`string`|1| `Percentage` or `RatePerLot`||
+|CommissionRate|Commission Rate|`decimal`||||
+|CounterpartyCode|Counterparty Code|`string`|10|||
+|DeclaredPrice|Declared Price|`decimal`||||
+|ExchangeCode|Exchange Code|`string`|6|||
+|InventoryHedgeType|Inventory Hedge Type|`string`|1|||
+|IsPhysicalFix|Is Physical Fix|`boolean`||||
+|OTCBrokerCode|OTC Broker Code|`string`|10|||
+|OTCBrokerCommissionCurrencyCode|OTC Broker Commission Currency|`string`|3|||
+|OTCCommission|OTC Commission|`decimal`||||
+|SecondBrokerCommissionCurrencyCode|Second Broker Commission Currency|`string`|3|||
+|TradeTime|Trade Time|`string`|5|`HH:MM`||
+|TradingEntityId|Trading Entity ID|`string`|2|||
+
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (BrokerDataCreate)
+
++ Response 201 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + BrokerDataId: 1 (number)
+            + OrderId: 1 (number)
+        + Response (201 CreateResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## Broker Data Update/Delete [/ElectronicOrderBook/BrokerData/{OrderId}]
+
+### Update Broker Data [PATCH]
+`PATCH`
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|OrderId|Order Id|`number`|||Required|
+|SerialNo|Serail Number|`number`||||
+|TradeDate|Trade Date|`datetime`||||
+|AccountCode|Account Code|`string`|10|||
+|TradeCodeId|Trade Code Id|`string`|3|||
+|DepartmentCode|Department Code|`string`|4|||
+|InstrumentCode|Instrument Code|`string`|8|||
+|PromptDate|Prompt Date|`date`||`yyyy-mm` or `yyyy-mm-dd`||
+|Instruction|Instruction|`boolean`||||
+|OptionType|Option Type|`string`|1|`Call`, `Put` or `Futures`||
+|OptionSeries|Option Series|`decimal`||||
+|BuySell|Buy or Sell|`string`|4|`Buy` or `Sell`||
+|Lots|Lots|`number`||. Greater than `0`||
+|PhysiscalTradeCode|Physical Reference|`string`|11|||
+|BrokerCode|Broker Account|`string`|10|||
+|Price|Price|`decimal`||||
+|FloorBrokerCode|Floor Broker Account Code|`string`|10|||
+|TraderCode|Trader Code|`string`|3|||
+|Memo|Memorandum|`string`|120|||
+|StrategyCode|Strategy Code|`string`|15|||
+|StrategyGroupCode|Strategy Group Code|`string`|15|||
+|Memo2|Memorandum 2|`string`|20|||
+|ExternalSerial|External Serial|`string`|10|||
+|CommissionCodeRateCode|Commission Code Rate Code|`string`|3|||
+|BrokerPrice|Broker Price|`decimal`||||
+|BuybackReference|Buyback Reference|`number`||||
+|ClientOrBroker|Client or Broker|`string`|`Client` or `Broker`|||
+|CommissionCurrencyCode|Commission Currency Code|`string`|3|||
+|CommissionType|Commission Type|`string`|1|`Percentage` or `RatePerLot`||
+|CommissionRate|Commission Rate|`decimal`||||
+|CounterpartyCode|Counterparty Code|`string`|10|||
+|DeclaredPrice|Declared Price|`decimal`||||
+|ExchangeCode|Exchange Code|`string`|6|||
+|InventoryHedgeType|Inventory Hedge Type|`string`|1|||
+|IsPhysicalFix|Is Physical Fix|`boolean`||||
+|OTCBrokerCode|OTC Broker Code|`string`|10|||
+|OTCBrokerCommissionCurrencyCode|OTC Broker Commission Currency|`string`|3|||
+|OTCCommission|OTC Commission|`decimal`||||
+|SecondBrokerCommissionCurrencyCode|Second Broker Commission Currency|`string`|3|||
+|TradeTime|Trade Time|`string`|5|`HH:MM`||
+|TradingEntityId|Trading Entity ID|`string`|2|||
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (BrokerDataUpdate)
+
++ Parameters
+    + OrderId (required, number, `1`) ... Identify specific Order.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + OrderId: 1 (number)
+        + Response (200 UpdateResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+### Delete Broker Data [DELETE]
+`DELETE`
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|OrderId|Broker Data ID|`number`|||Required|
+
+<strong>Body Parameters</strong>
+<br />
+None.
+
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Body 
+    
+            {
+                none
+            }
+
++ Parameters
+    + OrderId (required, number, `1`) ... Identify specific Order.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + OrderId: 1 (number)
+        + Response (200 DeletedResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## WebIce Data Create [/ElectronicOrderBook/WebIceData]
+
+### Create WebIce Data [POST]
+`POST`
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|OrderId|Order Id|`number`|||Required|
+|SerialNo|Serail Number|`number`||||
+|TradeDate|Trade Date|`datetime`||||
+|AccountCode|Account Code|`string`|10|||
+|TradeCodeId|Trade Code ID|`string`|3|||
+|DepartmentCode|Department Code|`string`|4|||
+|InstrumentCode|Instrument Code|`string`|8|||
+|PromptDate|Prompt Date|`date`||`yyyy-mm` or `yyyy-mm-dd`||
+|Instruction|Instruction|`boolean`||||
+|OptionType|Option Type|`string`|1|`Call`, `Put` or `Futures`||
+|OptionSeries|Option Series|`decimal`||||
+|BuySell|Buy or Sell|`string`|4|`Buy` or `Sell`||
+|Lots|Lots|`number`||. Greater than `0`||
+|PhysiscalTradeCode|Physical Reference|`string`|11|||
+|BrokerCode|Broker Account|`string`|10|||
+|Price|Price|`decimal`||||
+|FloorBrokerCode|Floor Broker Account Code|`string`|10|||
+|TraderCode|Trader Code|`string`|3|||
+|Memo|Memorandum|`string`|120|||
+|StrategyCode|Strategy Code|`string`|15|||
+|StrategyGroupCode|Strategy Group Code|`string`|15|||
+|Memo2|Memorandum 2|`string`|20|||
+|ExternalSerial|External Serial|`string`|10|||
+|CommissionCodeRateCode|Commission Code Rate Code|`string`|3|||
+|BrokerPrice|Broker Price|`decimal`||||
+|BuybackReference|Buyback Reference|`number`||||
+|ClientOrBroker|Client or Broker|`string`||`Client` or `Broker`||
+|CommissionCurrencyCode|Commission Currency Code|`string`|3|||
+|CommissionType|Commission Type|`string`|1| `Percentage` or `RatePerLot`||
+|CommissionRate|Commission Rate|`decimal`||||
+|CounterpartyCode|Counterparty Code|`string`|10|||
+|DeclaredPrice|Declared Price|`decimal`||||
+|ExchangeCode|Exchange Code|`string`|6|||
+|InventoryHedgeType|Inventory Hedge Type|`string`|1|||
+|IsPhysicalFix|Is Physical Fix|`boolean`||||
+|OTCBrokerCode|OTC Broker Code|`string`|10|||
+|OTCBrokerCommissionCurrencyCode|OTC Broker Commission Currency|`string`|3|||
+|OTCCommission|OTC Commission|`decimal`||||
+|SecondBrokerCommissionCurrencyCode|Second Broker Commission Currency|`string`|3|||
+|TradeTime|Trade Time|`string`|5|`HH:MM`||
+|TradingEntityId|Trading Entity ID|`string`|2|||
+
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (BrokerDataCreate)
+
++ Response 201 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + WebIceDataId: 1 (number)
+            + OrderId: 1 (number)
+        + Response (201 CreateResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## WebIce Data Update/Delete [/ElectronicOrderBook/WebIceData/{OrderId}]
+
+### Update WebIce Data [PATCH]
+`PATCH`
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|OrderId|Order Id|`number`|||Required|
+|SerialNo|Serail Number|`number`||||
+|TradeDate|Trade Date|`datetime`||||
+|AccountCode|Account Code|`string`|10|||
+|TradeCodeId|Trade Code ID|`string`|3|||
+|DepartmentCode|Department Code|`string`|4|||
+|InstrumentCode|Instrument Code|`string`|8|||
+|PromptDate|Prompt Date|`date`||`yyyy-mm` or `yyyy-mm-dd`||
+|Instruction|Instruction|`boolean`||||
+|OptionType|Option Type|`string`|1|`Call`, `Put` or `Futures`||
+|OptionSeries|Option Series|`decimal`||||
+|BuySell|Buy or Sell|`string`|4|`Buy` or `Sell`||
+|Lots|Lots|`number`||. Greater than `0`||
+|PhysiscalTradeCode|Physical Reference|`string`|11|||
+|BrokerCode|Broker Account|`string`|10|||
+|Price|Price|`decimal`||||
+|FloorBrokerCode|Floor Broker Account Code|`string`|10|||
+|TraderCode|Trader Code|`string`|3|||
+|Memo|Memorandum|`string`|120|||
+|StrategyCode|Strategy Code|`string`|15|||
+|StrategyGroupCode|Strategy Group Code|`string`|15|||
+|Memo2|Memorandum 2|`string`|20|||
+|ExternalSerial|External Serial|`string`|10|||
+|CommissionCodeRateCode|Commission Code Rate Code|`string`|3|||
+|BrokerPrice|Broker Price|`decimal`||||
+|BuybackReference|Buyback Reference|`number`||||
+|ClientOrBroker|Client or Broker|`string`|`Client` or `Broker`|||
+|CommissionCurrencyCode|Commission Currency Code|`string`|3|||
+|CommissionType|Commission Type|`string`|1|`Percentage` or `RatePerLot`||
+|CommissionRate|Commission Rate|`decimal`||||
+|CounterpartyCode|Counterparty Code|`string`|10|||
+|DeclaredPrice|Declared Price|`decimal`||||
+|ExchangeCode|Exchange Code|`string`|6|||
+|InventoryHedgeType|Inventory Hedge Type|`string`|1|||
+|IsPhysicalFix|Is Physical Fix|`boolean`||||
+|OTCBrokerCode|OTC Broker Code|`string`|10|||
+|OTCBrokerCommissionCurrencyCode|OTC Broker Commission Currency|`string`|3|||
+|OTCCommission|OTC Commission|`decimal`||||
+|SecondBrokerCommissionCurrencyCode|Second Broker Commission Currency|`string`|3|||
+|TradeTime|Trade Time|`string`|5|`HH:MM`||
+|TradingEntityId|Trading Entity ID|`string`|2|||
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (BrokerDataUpdate)
+
++ Parameters
+    + OrderId (required, number, `1`) ... Identify specific Order.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + OrderId: 1 (number)
+        + Response (200 UpdateResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+### Delete WebIce Data [DELETE]
+`DELETE`
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|OrderId|WebIce Data ID|`number`|||Required|
+
+<strong>Body Parameters</strong>
+<br />
+None.
+
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Body 
+    
+            {
+                none
+            }
+
++ Parameters
+    + OrderId (required, number, `1`) ... Identify specific Order.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + OrderId: 1 (number)
+        + Response (200 DeletedResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+# Group Invoicing
+
+## Discharge Weights Create [/Invoicing/{TradingEntityId}/Trade/DischargeWeights]
+`POST` Create Discharge Weights * <a href="/#introduction/disclaimer"> (Disclaimer)</a>
+### Create Discharge Weights [POST]
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|PhysicalTradeId|Physical Trade Id|`string`|10||Required|
+|LandingReportDate|Landing Report Date|`datetime`|||Required|
+|ControllerReference|Cointroller Reference|`string`|30||Required|
+|FirstController|see <b><a href="/#reference/data-object-definitions/controller">Controller</a></b> object|`object`|||Required|
+|SecondController|see <b><a href="/#reference/data-object-definitions/controller">Controller</a></b> object|`object`||||
+
+<hr />
+
+<b>Response Data</b>
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|DischargeWeights|see <b><a href="/#reference/data-object-definitions/discharge-weight">Discharge Weight</a></b> object|[array] of `object`||||
+
++ Parameters
+    + TradingEntityId (required, string, `BU`) ... Identify specific trading entity. 
+
++ Request (application/json)
+    + Header
+
+            AccessToken: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (DischargeWeightsRequest)
+
++ Response 201 (application/json; charset=utf-8)
+    + Attributes 
+        + Data (DischargeWeightsResponse)
+        + Response (201 CreateResponse)
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data (DischargeWeightsResponse)
+        + Response (200 UpdateResponse)
+
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## Invoice Staging Records Create [/Invoicing/{TradingEntityId}/Cotton/InvoiceStage]
+`POST` Create Invoice Staging Record per request Leg, and Docman the DocumentFile * <a href="/#introduction/disclaimer"> (Disclaimer)</a>
+### Create Invoice Staging Records [POST]
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|DocumentDate|Document Date|`datetime`|||Required|
+|ValueDate|Value Date|`datetime`|||Required|
+|Type|Type|`string`|9|Defaulted to `Warehouse`|`Warehouse` or `Freight`|
+|SupplierCode|Supplier Code|`string`|8|||
+|PaymentTermsCode|Payment Terms Code|`string`|8|||
+|ClientReference|Client Reference|`string`|25|||
+|DocumentFile|Document File|`string`||Base64 string||
+|DocumentName|Document Name|`string`|200|||
+|Legs|see <b><a href="/#reference/data-object-definitions">Invoice Stage Leg</a></b> object|[array] of `object`|||Required|
+
+<hr />
+
+<b>Response Data</b>
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|TransactionId|Transaction Id|`number`||||
+
++ Parameters
+    + TradingEntityId (required, string, `BU`) ... Identify specific trading entity. 
+
++ Request (application/json)
+    + Header
+
+            AccessToken: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (InvoiceStageRequest)
+
++ Response 201 (application/json; charset=utf-8)
+    + Attributes 
+        + Data (InvoiceStageResponse)
+        + Response (201 CreateResponse)
+
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+# Group Inventory 
+
+## Bale Grouping Create [/Inventory/{TradingEntityId}/Grouping/CreateBaleGrouping]
+
+### Create Bale Grouping [POST]
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|GroupType|Group Type|`string`|10||Required - `Logistics`, `Sale`, `Sample` or `Other`|
+|GroupSubTypeCode|Group Sub Type Code|`string`|10||Required|
+|GroupDescription|Group Description|`string`|255|||
+|IsStopWeights|Is Stop Weights|`boolean`|||Required|
+|InventoryIds|Inventory Ids|[array] of `number`|||Required|
+|AllocatedSaleCode|Allocated Sale Code|`string`|10|||
+|MarksStyle|Marks Style|`string`|9||`Manual`, `Automatic` or `Prefix`|
+|Mark|Mark|`string`|10||Required if MarkStyle = `Manual`|
+|Prefix|Prefix|`string`|5||Required if MarkStyle = `Prefix`|
+|NewRecap|New Recap|`boolean`||||
+|RecapPrefix|Recap Prefix|`string`|3|||
+|RecapMark|Recap Mark|`string`|20|||
+|RecapDescription|Recap Description|`string`|255|||
+|RecapStatus|Recap Status|`string`|255|||
+
+<hr />
+
+<b>Response Data</b>
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|GroupId|Group Id|`number`||||
+
++ Parameters
+    + TradingEntityId (required, string, `BU`) ... Identify specific trading entity. 
+
++ Request (application/json)
+    + Header
+
+            AccessToken: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (BaleGroupingRequest)
+
++ Response 201 (application/json; charset=utf-8)
+    + Attributes 
+        + Data (BaleGroupingResponse)
+        + Response (201 CreateResponse)
+
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## Bale Grouping Update [/Inventory/{TradingEntityId}/Grouping/UpdateBaleGrouping/{GroupId}]
+
+### Update Bale Grouping [PATCH]
+`PATCH` Update Bale Grouping. * <a href="/#introduction/disclaimer"> (Disclaimer)</a>
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|GroupId|Group Id|`number`|||Required|
+|GroupDescription|Group Description|`string`|255|||
+|MarksStyle|Marks Style|`string`|9||`Manual`, `Automatic` or `Prefix`|
+|Mark|Mark|`string`|10||Required if MarkStyle = `Manual`|
+|Prefix|Prefix|`string`|5||Required if MarkStyle = `Prefix`|
+|NewRecap|New Recap|`boolean`||||
+|RecapPrefix|Recap Prefix|`string`|3|||
+|RecapMark|Recap Mark|`string`|20|||
+|RecapDescription|Recap Description|`string`|255|||
+|RecapStatus|Recap Status|`string`|255|||
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (BaleGroupingUpdateRequest)
+
++ Parameters
+    + TradingEntityId (required, string, `JT`) ... Identify specific trading entity.
+    + GroupId (required, number, `50`) ... Group Id of LogisticsMovement record to update.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data (BaleGroupingResponse)
+        + Response (200 UpdateResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## Bale Grouping Removal  [/Inventory/{TradingEntityId}/Grouping/RemoveBaleGrouping/{GroupId}]
+
+### Remove Bale Grouping [DELETE]
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|GroupId|Group Id|`number`|||Required|
+
+<strong>Body Parameters</strong>
+<br />
+None.
+
+
++ Request (application/json)
+    + Header
+
+            AccessToken:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Body 
+    
+            {
+                none
+            }
+
++ Parameters
+    + TradingEntityId (required, string, `BU`) ... Identify specific trading entity.
+    + GroupId (required, number, `150`) ... Id for Grouping to delete.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + GroupId: 150 (number)
+        + Response (200 DeletedResponse)
+
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## Logistics Movement Update [/Inventory/{TradingEntityId}/LogisticsMovement/{GroupId}/{Uniqueness}]
+
+### Update Logistics Movement [PATCH]
+`PATCH` Update Logistics Movement Records. * <a href="/#introduction/disclaimer"> (Disclaimer)</a>
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|GroupId|Group Id|`number`|||Required|
+|Uniqueness|Uniqueness|`number`|||Required|
+|RequestedLoadDate|Requested Load Date|`datetime`||||
+|ShipmentOrderRequested|Shipment Order Requested|`boolean`||||
+|DestinationWarehouse|Destination Warehouse|`string`|10|||
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (LogisticsMovement Update)
+
++ Parameters
+    + TradingEntityId (required, string, `JT`) ... Identify specific trading entity.
+    + GroupId (required, number, `1515`) ... Group Id of LogisticsMovement record to update.
+    + Uniqueness (required, number, `4`) ... Uniqueness of LogisticsMovement record to update.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + GroupId: 1515 (number)
+        + Response (200 UpdateResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## Lots Create [/Inventory/{TradingEntityId}/Lots/CreateLots]
+
+### Create Lots [POST]
+`POST` Create Inventory Lot Records. * <a href="/#introduction/disclaimer"> (Disclaimer)</a>
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|PlaceHolder|PlaceHolder|`string`|10||Required|
+
+<hr />
+
+<b>Response Data</b>
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|GroupId|Group Id|`number`||||
+
++ Parameters
+    + TradingEntityId (required, string, `BU`) ... Identify specific trading entity. 
+
++ Request (application/json)
+    + Header
+
+            AccessToken: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (BaleGroupingRequest)
+
++ Response 201 (application/json; charset=utf-8)
+    + Attributes 
+        + Data (BaleGroupingResponse)
+        + Response (201 CreateResponse)
+
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## Lots Update [/Inventory/{TradingEntityId}/Lots/UpdateLots]
+
+### Update Lots [PATCH]
+`PATCH` Update Inventory Lot Records. * <a href="/#introduction/disclaimer"> (Disclaimer)</a>
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|PlaceHolder|PlaceHolder|`string`|10||Required|
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (LogisticsMovement Update)
+
++ Parameters
+    + TradingEntityId (required, string, `JT`) ... Identify specific trading entity.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + GroupId: 1515 (number)
+        + Response (200 UpdateResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+## Lots Delete [/Inventory/{TradingEntityId}/Lots/DeleteLots]
+
+### Delete Lots [DELETE]
+`DELETE` Delete Inventory Lot Records
+
+<strong>URI Parameters</strong>
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|PlaceHolder|PlaceHolder|`string`|10||Required|
+
+<strong>Body Parameters</strong>
+<br />
+None.
+
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Body 
+    
+            {
+                none
+            }
+
++ Parameters
+    + TradingEntityId (required, string, `NL`) ... Identify specific trading entity.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + ReleaseId: 123 (number)
+        + Response (200 DeletedResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+# Group Stocks
+
+## Instruction Sheet Create [/Stocks/{TradingEntityId}/Instructions/CreateInstructionSheet/{PhysicalTradeId}/{ReleaseId}]
+
+### Create Instruction Sheet [PUT]
+`PUT` Updates in relation to the creation of Instruction sheet process
+
+<strong>URI Parameters</strong>
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|PhysicalTradeId|Physical Trade ID|`string`|10||Required|
+|ReleaseId|Release ID|`number`|||Required|
+
+<strong>Body Parameters</strong>
+<br />
+None.
+
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Body 
+    
+            {
+                none
+            }
+
++ Parameters
+    + TradingEntityId (required, string, `NL`) ... Identify specific trading entity.
+    + PhysicalTradeId (required, string, `P00001.001`) ... Identify specific Physical Order.
+    + ReleaseId (required, number, `123`) ... Identify specific Physical Order.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + PhyscialTradeId: P00001.001 (string)
+            + ReleaseId: 123 (number)
+        + Response (200 UpdateResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+
+## Instruction Sheet Delete [/Stocks/{TradingEntityId}/Instructions/DeleteInstructionSheet/{PhysicalTradeId}/{ReleaseId}]
+
+### Delete Instruction Sheet [DELETE]
+`DELETE` Updates in relation to the deletion of Instruction sheet process
+
+<strong>URI Parameters</strong>
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|PhysicalTradeId|Physical Trade ID|`string`|10||Required|
+|ReleaseId|Release ID|`number`|||Required|
+
+<strong>Body Parameters</strong>
+<br />
+None.
+
+
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Body 
+    
+            {
+                none
+            }
+
++ Parameters
+    + TradingEntityId (required, string, `NL`) ... Identify specific trading entity.
+    + PhysicalTradeId (required, string, `P00001.001`) ... Identify specific Physical Order.
+    + ReleaseId (required, number, `123`) ... Identify specific Physical Order.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + PhyscialTradeId: P00001.001 (string)
+            + ReleaseId: 123 (number)
+        + Response (200 DeletedResponse)
+    
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
+# Group Data Object Definitions
+List of re-usable Data Objects referenced as `object` types. Not that these endpoints are not accessable and only here for reference purposes.
+
+## Controller [/Controller]
+A multipurpose object used by several endpoints. 
+
+### Controller[GET]
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|LandingSurveyorCode|Landing Surveyor Code|`string`|10||Required|
+|NetWeight|Net Weight|`decimal`|||Required|
+|WeightDate|Weight Date|`datetime`|||Required|
+
++ Response 200 (application/json; charset=utf-8)
++ Attributes (ControllerInput1)
+
+## Discharge Weight [/DischargeWeight]
+A multipurpose object used by several endpoints. 
+
+### Discharge Weight[GET]
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|PhysicalTradeId|Physical Trade Id|`string`||||
+|WeightCode|Weight Code|`string`||||
+|GrossWeight|Gross Weight|`decimal`||||
+|RecordType|Record Type|`string`||||
+
++ Response 200 (application/json; charset=utf-8)
++ Attributes (DischargeWeightsResponse1)
+
+## Invoice Stage Leg [/InvoiceStageLeg]
+A multipurpose object used by several endpoints. 
+
+### Invoice Stage Leg[GET]
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|GroupNumber|Group Number|`number`|||Required|
+|HaulId|Haul Id|`number`|||Required|
+|CostCode|Cost Code|`string`|8|||
+|PercentActualised|Percent Actualised|`number`|||Required|
+|InvoiceValue|Invoice Value|`decimal`|||Required|
+|VatCode|Vat Code|`string`|2|||
+|NominalAccountCode|Nominal Account Code|`string`|9|||
+|ExpenseCode|Expense Code|`string`|7|||
+|Narrative|Narrative|`string`|30|||
+
++ Response 200 (application/json; charset=utf-8)
++ Attributes (InvoiceStageLeg)
+
+# Data Structures
+
+## 200 SuccessResponse (object)
++ Value: Success (string)
+
+## 200 UpdateResponse (object)
++ Value: Updated (string)
+
+## 200 DeletedResponse (object)
++ Value: Deleted (string)
+
+## 200 AuthoriseResponse (object)
++ Value: Authorised (string)
+
+## 201 CreateResponse (object)
++ Value: Created (string)
+
+## 201 CreateMessages (object)
++ Messages (array [201 ErrorMessageDetail])
+
+## 201 ErrorMessageDetail (object)
++ Severity: Warning (string)
++ Message: `API5084 - API : {fieldName} has a {fieldName} of {value}.` (string)
+
+## 201 CreateBllMessages (object)
++ Messages (array [201 ErrorBllMessageDetail])
+
+## 201 ErrorBllMessageDetail (object)
++ Severity: Warning (string)
++ Message: `API5084 - API : {fieldName} has a {fieldName} of {value}.` (string)
+
+## 400 Response (object)
++ Response
+    + Value: 400 Bad Request (string)
++ Messages (array [400 ErrorMessageDetail])
+
+## 400 ErrorMessageDetail (object)
++ Severity: Error (string)
++ Message: `API5058 - Data : The mandatory field {fieldName} was missing in the request body.` (string)
+
+
+## 400 BadPropertyResponse (object)
++ Response
+    + Value: 400 Bad Request (string)
++ Messages (array[400 BadPropertyErrorMessageDetail])
+
+## 400 BadPropertyErrorMessageDetail (object)
++ Severity: Error (string)
++ Message: `API5074 - API : The value sent in the querystring variable {Property} is not allowed.` (string)
+
+
+## 400 BadReadResponse (object)
++ Response
+    + Value: 400 Bad Request (string)
++ Messages (array[400 BadReadErrorMessageDetail])
+
+## 400 BadReadErrorMessageDetail (object)
++ Severity: Error (string)
++ Message: `API5075 - API : The value sent in the querystring is not allowed.` (string)
+
+
+## 400 WarningMessageDetail (object)
++ Severity: Warning (string)
++ Message: `API50xx - Data : The field {fieldName} was not found.` (string)
+
+## 400 InfoMessageDetail (object)
++ Severity: Information (string)
++ Message: `API50xx - Data : Now create xyz.` (string)
+
+
+## 404 Response (object)
++ Response
+    + Value: 404 Not Found (string)
++ Messages (array[404 ErrorMessageDetailMessage])
+
+## 404 ErrorMessageDetailMessage (object)
++ Severity: Warning (string)
++ Message: `API5068 - Data : No records found.` (string)
+
+
+## 405 Response (object)
++ Response
+    + Value: 405 Method Not Allowed (string)
++ Messages (array[405 MethodNotAllowedMessage])
+
+## 405 MethodNotAllowedMessage (object)
++ Severity: Error (string)
++ Message: `API5077 - API : That method is not supported, please check the ITAS API documentation.` (string)
+
+## accessToken (object)
++ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg 
+
+## BaleGroupingRequest (object)
++ GroupType: Logistics (string)
++ GroupSubTypeCode: SHORTS (string)
++ GroupDescription: Short Bales (string)
++ IsStopWeights: true (boolean)
++ InventoryIds (array [number]) - Example: [150, 151]
+    + Members
+        + 150
+        + 151
++ AllocatedSaleCode: (string)
++ MarksStyle: Manual (string)
++ Mark: ACGT (string)
++ Prefix: (string)
++ NewRecap: true (boolean)
++ RecapPrefix: C1 (string)
++ RecapMark: MEMPHIS (string)
++ RecapDescription: Grade 1 Memphis (string)
++ RecapStatus: Valid (string)
+
+## BaleGroupingUpdateRequest (object)
++ GroupId: 50 (number)
++ GroupDescription: Short Bales (string)
++ MarksStyle: Manual (string)
++ Mark: ACGT (string)
++ Prefix: (string)
++ NewRecap: true (boolean)
++ RecapPrefix: C1 (string)
++ RecapMark: MEMPHIS (string)
++ RecapDescription: Grade 1 Memphis (string)
++ RecapStatus: Valid (string)
+
+## BaleGroupingInventoryId1 (object)
++ InventoryId: 150 (number)
+
+## BaleGroupingInventoryId2 (object)
++ InventoryId: 151 (number)
+
+## BaleGroupingResponse (object)
++ GroupId: 50 (number)
+
+## BrokerDataCreate (object)
++ OrderId: 1 (number)
++ SerialNo: 123 (number)
++ TradeDate: `2015-07-01T00:00:00Z` (string)
++ AccountCode: ABCDEF.P (string)
++ TradeCodeId: AA (string)
++ DepartmentCode: 5100 (string)
++ InstrumentCode: NY11 (string)
++ PromptDate: `2015-07-01` (string)
++ Instruction: true (boolean)
++ OptionType: Call (string)
++ OptionSeries: 123 (number)
++ BuySell: Buy (string)
++ Lots: 100 (number)
++ PhysicalTradeCode: P00007.003 (string)
++ BrokerCode: ABCDEF.P (string)
++ Price: 12345 (number)
++ FloorBrokerCode: ABCDEF.P (string)
++ TraderCode: TT (string)
++ Memo: AB CD EF (string)
++ StrategyCode: P1 (string)
++ StrategyGroupCode: PORT (string)
++ Memo2: GHI JKL (string)
++ ExternalSerial: ABCD (string)
++ CommissionCodeRateCode: 2 (number)
++ BrokerPrice: 20.2 (number)
++ BuybackReference: 1002 (number)
++ ClientOrBroker: Client (string)
++ CommissionCurrencyCode: GBP (string)
++ CommissionType: Percentage (string)
++ CommissionRate: 12.5 (number)
++ CounterpartyCode: COUNT.P (string)
++ DeclaredPrice: 53.1 (number)
++ ExchangeCode: NYFE (string)
++ InventoryHedgeType: 2 (string)
++ IsPhysicalFix: true (string)
++ OTCBrokerCode: OTCB.T (string)
++ OTCBrokerCommissionCurrencyCode: USD (string)
++ OTCCommission: 2.4 (number)
++ SecondBrokerCommissionCurrencyCode: GBP (string)
++ TradeTime: 15:25 (string)
++ TradingEntityId: DT (string)
+
+## BrokerDataUpdate (object)
++ OrderId: 1 (number)
++ SerialNo: 123 (number)
++ TradeDate: `2015-07-01T00:00:00Z` (string)
++ AccountCode: ABCDEF.P (string)
++ TradeCodeId: AA (string)
++ DepartmentCode: 5100 (string)
++ InstrumentCode: NY11 (string)
++ PromptDate: `2015-07-01` (string)
++ Instruction: true (boolean)
++ OptionType: Call (string)
++ OptionSeries: 123 (number)
++ BuySell: Buy (string)
++ Lots: 100 (number)
++ PhysicalTradeCode: P00007.003 (string)
++ BrokerCode: ABCDEF.P (string)
++ Price: 12345 (number)
++ FloorBrokerCode: ABCDEF.P (string)
++ TraderCode: TT (string)
++ Memo: AB CD EF (string)
++ StrategyCode: P1 (string)
++ StrategyGroupCode: PORT (string)
++ Memo2: GHI JKL (string)
++ ExternalSerial: ABCD (string)
++ CommissionCodeRateCode: 2 (number)
++ BrokerPrice: 20.2 (number)
++ BuybackReference: 1002 (number)
++ ClientOrBroker: Client (string)
++ CommissionCurrencyCode: GBP (string)
++ CommissionType: Percentage (string)
++ CommissionRate: 12.5 (number)
++ CounterpartyCode: COUNT.P (string)
++ DeclaredPrice: 53.1 (number)
++ ExchangeCode: NYFE (string)
++ InventoryHedgeType: 2 (string)
++ IsPhysicalFix: true (string)
++ OTCBrokerCode: OTCB.T (string)
++ OTCBrokerCommissionCurrencyCode: USD (string)
++ OTCCommission: 2.4 (number)
++ SecondBrokerCommissionCurrencyCode: GBP (string)
++ TradeTime: 15:25 (string)
++ TradingEntityId: DT (string)
+
+## ControllerInput1 (object)
++ LandingSurveyorCode: SURV1.P (required, string)
++ NetWeight: 1000 (required, number)
++ WeightDate: `2026-09-12T00:00:00Z` (required, string)
+
+## ControllerInput2 (object)
++ LandingSurveyorCode: SURV2.P (required, string)
++ NetWeight: 900 (required, number)
++ WeightDate: `2026-08-25T00:00:00Z` (required, string)
+
+## DischargeWeightsRequest (object)
++ PhysicalTradeId: S00001.001 (required, string)
++ LandingReportDate: `2026-08-28T00:00:00Z` (required, string)
++ ControllerReference: CONTROL01 (required, string)
++ FirstController (ControllerInput1)
++ SecondController (ControllerInput2)
+
+## DischargeWeightsResponse1 (object)
++ PhysicalTradeId: S00001.001 (string)
++ WeightCode: LBS (string)
++ GrossWeight: 1100 (number) 
++ RecordType: Discharge (string)
+
+## DischargeWeightsResponse2 (object)
++ PhysicalTradeId: S00001.001 (string)
++ WeightCode: LBS (string)
++ GrossWeight: 1000 (number) 
++ RecordType: NetLandedTwo (string)
+
+## DischargeWeightsResponse (object)
++ DischargeWeights (array [DischargeWeightsResponse1, DischargeWeightsResponse2])
+
+## InvoiceStageLeg (object)
++ GroupNumber: 1 (number)
++ HaulId: 101 (number)
++ CostCode: CC-100 (string)
++ PercentActualised: 100 (number)
++ InvoiceValue: 110.00 (number)
++ VatCode: S1 (string)
++ NominalAccountCode: NOM-100 (string)
++ ExpenseCode: EXP- 10 (string)
++ Narrative: Invoice Leg 1 (string)
+
+## InvoiceStageLeg2 (object)
++ GroupNumber: 2 (number)
++ HaulId: 102 (number)
++ CostCode: CC-200 (string)
++ PercentActualised: 100 (number)
++ InvoiceValue: 120.00 (number)
++ VatCode: S1 (string)
++ NominalAccountCode: NOM-200 (string)
++ ExpenseCode: EXP- 20 (string)
++ Narrative: Invoice Leg 2 (string)
+
+## InvoiceStageRequest (object)
++ DocumentDate: `2026-08-12T00:00:00Z` (required, string)
++ ValueDate: `2026-09-12T00:00:00Z` (required, string)
++ Type: Warehouse (string)
++ SupplierCode: WARH01 (string)
++ PaymentTermsCode: NET30 (string)
++ ClientReference: REF-2025-001 (string)
++ DocumentFile: `ZG9jMQ==` (string)
++ DocumentName: `doc1.pdf` (string)
++ Legs (array [InvoiceStageLeg, InvoiceStageLeg2])
+
+## InvoiceStageResponse (object)
++ TransactionId: 10 (number)
+
+## LogisticsMovement Update (object)
++ GroupId: 1515 (number)
++ Uniqueness: 4 (number)
++ RequestedLoadDate: `2026-08-12T00:00:00Z` (string)
++ ShipmentOrderRequested: true (boolean)
++ DestinationWarehouse: 054205.P (string)
+
+## NetGrossWeight ResponseP (object)
++ PhysicalTradeId: P00001.000 (string)
++ UnitOfMeasurementCode: MT (string)
++ Quantity: 20 (number)
+
+## NetGrossWeight ResponseS (object)
++ PhysicalTradeId: S00001.000 (string)
++ UnitOfMeasurementCode: MT (string)
++ Quantity: 20 (number)
+
+## NetGrossWeight Update (object)
++ PhysicalTradeId: P00001.000 (string)
++ GrossWeight: `21.00` (number)
++ Quantity: `20.00` (number)
