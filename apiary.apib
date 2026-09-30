@@ -2,14 +2,14 @@ FORMAT: 1A
 HOST: http://itas.apiary.io/
 VERSION: 1.1
 
-# ED&FMan Custom API v1.6
+# ED&FMan Custom API v1.7
 
 ## Disclaimer
 
 **** Warning: at this point, ITAS API does not support asynchronous or multithreading calls for POST, PUT, PATCH and DELETE requests. Async or multithreading requests could result in various Error messages, or even a corruption of data in extreme cases and are therefore not supported. ****
 <br />
 <br />
-<strong>Release notes</strong> (<sup>4th</sup> September 2026.)
+<strong>Release notes</strong> (<sup>5th</sup> October 2026.)
 
 ## New Endpoints
 
@@ -731,14 +731,18 @@ None.
 
 |Property|Description|Type|Max Length|Notes|Constraint|
 |--------|-----------|----|----------|-----|----------|
-|PlaceHolder|PlaceHolder|`string`|10||Required|
+|VesselGroup|Vessel Group|`string`|6|||
+|NewVesselGroup|New Vessel Group|`boolean`||||
+|Lots|see <b><a href="/#reference/data-object-definitions">Lot</a></b> object|[array] of `object`|||Required|
 
 <hr />
 
 <b>Response Data</b>
 |Property|Description|Type|Max Length|Notes|Constraint|
 |--------|-----------|----|----------|-----|----------|
-|GroupId|Group Id|`number`||||
+|GroupingId|Grouping Id|`number`||||
+|ContractSplits|Contract Splits|[array] of `string`||||
+|InventoryIds|Inventory Ids|[array] of `number`||||
 
 + Parameters
     + TradingEntityId (required, string, `BU`) ... Identify specific trading entity. 
@@ -748,11 +752,13 @@ None.
 
             AccessToken: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
 
-    + Attributes (BaleGroupingRequest)
+    + Attributes (LotRequest)
 
 + Response 201 (application/json; charset=utf-8)
     + Attributes 
-        + Data (BaleGroupingResponse)
+        + GroupingId: 1 (number)
+        + ContractSplits: P00001.001, P00001.002 (array[string])
+        + InventoryIds: 123, 234 (array[number])
         + Response (201 CreateResponse)
 
 + Response 400 (application/json; charset=utf-8)
@@ -771,22 +777,24 @@ None.
 
 |Property|Description|Type|Max Length|Notes|Constraint|
 |--------|-----------|----|----------|-----|----------|
-|PlaceHolder|PlaceHolder|`string`|10||Required|
+|Lots|see <b><a href="/#reference/data-object-definitions">Lot</a></b> object|[array] of `object`|||Required|
 
 + Request (application/json)
     + Header
 
             Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
 
-    + Attributes (LogisticsMovement Update)
+    + Attributes (LotRequest)
 
 + Parameters
-    + TradingEntityId (required, string, `JT`) ... Identify specific trading entity.
+    + TradingEntityId (required, string, `BU`) ... Identify specific trading entity.
 
 + Response 200 (application/json; charset=utf-8)
     + Attributes 
         + Data
-            + GroupId: 1515 (number)
+            + GroupingId: 1 (number)
+            + ContractSplits: P00001.001, P00001.002 (array[string])
+            + InventoryIds: 123, 234 (array[number])
         + Response (200 UpdateResponse)
     
 + Response 400 (application/json; charset=utf-8)
@@ -807,12 +815,7 @@ None.
 
 |Property|Description|Type|Max Length|Notes|Constraint|
 |--------|-----------|----|----------|-----|----------|
-|PlaceHolder|PlaceHolder|`string`|10||Required|
-
-<strong>Body Parameters</strong>
-<br />
-None.
-
+|InventoryIds|Inventory Ids|[array] of `string`|||Required|
 
 + Request (application/json)
     + Header
@@ -822,16 +825,18 @@ None.
     + Body 
     
             {
-                none
+                "InventoryIds": [123, 456, 789]
             }
 
 + Parameters
-    + TradingEntityId (required, string, `NL`) ... Identify specific trading entity.
+    + TradingEntityId (required, string, `BU`) ... Identify specific trading entity.
 
 + Response 200 (application/json; charset=utf-8)
     + Attributes 
         + Data
-            + ReleaseId: 123 (number)
+            + GroupingId: 1 (number)
+            + ContractSplits: P00001.001, P00001.002 (array[string])
+            + InventoryIds: 123, 234 (array[number])
         + Response (200 DeletedResponse)
     
 + Response 400 (application/json; charset=utf-8)
@@ -995,6 +1000,62 @@ A multipurpose object used by several endpoints.
 
 + Response 200 (application/json; charset=utf-8)
 + Attributes (InvoiceStageLeg)
+
+## Lot [/Lot]
+A multipurpose object used by several endpoints. 
+
+### Lot[GET]
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|InventoryId|Inventory Id|`number`||Only for Update||
+|WarehouseDate|Warehouse Date|`datetime`||||
+|WarehouseReference|Warehouse Reference|`string`|255|||
+|FuturesLotNumber|Futures Lot Number|`string`|10|||
+|BillOfLadingNumber|Bill Of Lading Number|`string`||||
+|FarmTract|Farm Tract|`string`|50|||
+|GrossWeight|Gross Weight|`decimal`||||
+|Tare|Tare|`decimal`||||
+|NetWeight|Net Weight|`decimal`||||
+|Quantity|Quantity|`number`||||
+|WeightCode|Weight Code|`string`|4|||
+|ShippingDate|Shipping Date|`datetime`||||
+|PurchaseContractCode|Purchase Contract Code|`string`|10|||
+|PurchaseGrade|Purchase Grade|`string`||||
+|StapleLength32ndsInch|Staple Length 32nds Inch|`number`||||
+|StapleLength100thsInch|Staple Length 100ths Inch|`decimal`||||
+|Micronaire|Micronaire|`decimal`||||
+|Strength|Strength|`decimal`||||
+|ShortFibreContent|Short Fibre Content|`decimal`||||
+|UniformityInLength|Uniformity In Length|`decimal`||||
+|Extraneous|Extraneous|`string`|2|||
+|LeafGrade|Leaf Grade|`string`|1|||
+|ColourGrade|Colour Grade|`string`|2|||
+|Comments|Comments|`string`|4000|||
+|InstColourGradeGreyness|Inst Colour Grade Greyness|`decimal`||||
+|Shipping|Shipping|`ShippingInfo`||Nested Shipping object||
+
++ Response 200 (application/json; charset=utf-8)
++ Attributes (Lot)
+
+## Shipping [/Shipping]
+A multipurpose object used by several endpoints. 
+
+### Shipping[GET]
+
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|VesselReference|Vessel Reference|`string`|30|||
+|JourneyNumber|Journey Number|`string`|20|||
+|OrderStatusCode|Order Status Code|`string`|30|||
+|OrderStatusDate|Order Status Date|`datetime`|2|||
+|EstimatedArrivalDate|Estimated Arrival Date|`string`||||
+|PortOfDestinationCode|Port Of Destination Code|`string`|8|||
+|ShippingLineCode|Shipping Line Code|`string`|10|||
+|EstimatedShipmentDate|Estimated Shipment Date|`datetime`||||
+
++ Response 200 (application/json; charset=utf-8)
++ Attributes (Shipping)
 
 # Data Structures
 
@@ -1289,6 +1350,39 @@ A multipurpose object used by several endpoints.
 + ShipmentOrderRequested: true (boolean)
 + DestinationWarehouse: 054205.P (string)
 
+## Lot (object)
++ InventoryId: 123 (number)
++ WarehouseDate: `2026-09-30T00:00:00Z` (string)
++ WarehouseReference: 0146645 (string)
++ FuturesLotNumber: 10 (string)
++ BillOfLadingNumber: 9785 (string)
++ FarmTract: Tract 1 (string)
++ GrossWeight: 25000.50 (number)
++ Tare: 500.00 (number)
++ NetWeight: 24500.50 (number)
++ Quantity: 100 (number)
++ WeightCode: MT (string)
++ ShippingDate: `2026-09-30T00:00:00Z` (string)
++ PurchaseContractCode: P00001.000 (string)
++ PurchaseGrade: GM (string)
++ StapleLength32ndsInch: 35 (number)
++ StapleLength100thsInch: 1.07 (number)
++ Micronaire: 4.20 (number)
++ Strength: 30.50 (number)
++ ShortFibreContent: 5.20 (number)
++ UniformityInLength: 82.50 (number)
++ Extraneous: 01 (string)
++ LeafGrade: 2 (string)
++ ColourGrade: 31 (string)
++ Comments: Example cotton lot (string)
++ InstColourGradeGreyness: 41 (number)
++ Shipping (Shipping)
+
+## LotRequest (object)
++ VesselGroup: VESGRP (string)
++ NewVesselGroup: true (boolean)
++ Lots (array [Lot])
+
 ## NetGrossWeight ResponseP (object)
 + PhysicalTradeId: P00001.000 (string)
 + UnitOfMeasurementCode: MT (string)
@@ -1303,3 +1397,13 @@ A multipurpose object used by several endpoints.
 + PhysicalTradeId: P00001.000 (string)
 + GrossWeight: `21.00` (number)
 + Quantity: `20.00` (number)
+
+## Shipping (object)
++ VesselReference: Vessel 001 (string)
++ JourneyNumber: JRN-001 (string)
++ OrderStatusCode: D (string)
++ OrderStatusDate: `2026-10-25T00:00:00Z` (string)
++ EstimatedArrivalDate: `2026-10-30T00:00:00Z` (string)
++ PortOfDestinationCode: AACHEN (string)
++ ShippingLineCode: MSC.P (string)
++ EstimatedShipmentDate: `2026-09-30T00:00:00Z` (string)
