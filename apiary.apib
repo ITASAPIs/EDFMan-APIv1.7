@@ -726,6 +726,45 @@ None.
 + Response 405 (application/json; charset=utf-8)
     + Attributes (405 Response)
 
+## Logistics Plan Create [/Inventory/{TradingEntityId}/Grouping/CreateLogisticsPlan]
+
+### Create Logistics Plan [POST]
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|GroupIds|Group Ids|[array] of `number`|||Required|
+
+<hr />
+
+<b>Response Data</b>
+|Property|Description|Type|Max Length|Notes|Constraint|
+|--------|-----------|----|----------|-----|----------|
+|PlanId|Plan Id|`number`||||
+
++ Parameters
+    + TradingEntityId (required, string, `BU`) ... Identify specific trading entity. 
+
++ Request (application/json)
+    + Header
+
+            AccessToken: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImRlZXBhayIsInN1YiI6ImRlZXBhayIsInJvbGUiOlsiNzk5YjhhNDEtYWI0ZS00MTBhLWI5MTktYzU3ZWFlMmFlMDI5IiwiZGVlcGFrIiwiQVNQLk5FVCBJZGVudGl0eSIsIjViNDE4ODE2LTI3ZjQtNGRlOC1iNmMyLTJlZTcxNjI3ZmJmYyIsIkFkbWluIiwiU3VwZXJBZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMjciLCJhdWQiOiI4MjkzNjk0MjJmNzA0NTIzODUxZDk4NTU2YjZkNTQyYiIsImV4cCI6MTQ1OTQzMjk0MSwibmJmIjoxNDU5NDMxMTQxfQ.JgPGxt0Ok5baKx0YMXlO6D9kUYrCWM-Kma9b9iMW8tg
+
+    + Attributes (LogisticsPlanCreateBody)
+
++ Response 201 (application/json; charset=utf-8)
+    + Attributes 
+        + Data
+            + PlanId: 2456 (number)
+        + Response (201 CreateResponse)
+
++ Response 400 (application/json; charset=utf-8)
+    + Attributes (400 Response)
+
++ Response 404 (application/json; charset=utf-8)
+    + Attributes (404 Response)
+
++ Response 405 (application/json; charset=utf-8)
+    + Attributes (405 Response)
+
 ## Lots Create [/Inventory/{TradingEntityId}/Lots/CreateLots]
 
 ### Create Lots [POST]
@@ -1169,6 +1208,13 @@ A multipurpose object used by several endpoints.
 + RecapMark: MEMPHIS (string)
 + RecapDescription: Grade 1 Memphis (string)
 + RecapStatus: Valid (string)
+
+## LogisticsPlanCreateBody (object)
++ GroupIds (array [number]) - Example: [152116, 152117, 152118]
+    + Members
+        + 152116
+        + 152117
+        + 152118
 
 ## BaleGroupingUpdateRequest (object)
 + GroupId: 50 (number)
